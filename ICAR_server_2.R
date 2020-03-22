@@ -2,7 +2,7 @@
 # Shiny server v0.01
 # Dr Vincent Looten
 # Date de création : 2020-02-17
-# Date de dernière modification : 2020-03-17
+# Date de dernière modification : 2020-03-22
 # Text encoding : UTF-8 (test : éèçà)
 
 server <- function(input, output) {
@@ -1095,7 +1095,7 @@ server <- function(input, output) {
   })
   
   
-  # Synthese - Examen des Epaules ####
+  # Synthese - Examen des amputations ####
   output$amputation_synthese <- renderUI({
     
     amputation_synthese <- ""
@@ -1656,6 +1656,442 @@ server <- function(input, output) {
     HTML(synthese)
   })
   
+  # Module Aide à la décision -- Evaluation des lesions bareme AT ####
   
-  
+  observeEvent(input$btn, {
+    
+    lesion <- as.data.frame(matrix(NA, nrow=1,ncol=4))
+    colnames(lesion) <- c("Module","Région","Lésion identifiée","IP")
+    
+    # Evaluation des lesions bareme AT ---- Amputations #### 
+    if(input$activate_amputation=="Oui"){
+      if( input$amputation_epaule_g_1=="Oui" & input$dominance!="Droitier"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation interscapulothoracique gauche chez un gaucher avec résection totale ou partielle de la clavicule et de l'omoplate, ou de l'un de ces deux os sur bras dominant","95%"))
+      }
+      if( input$amputation_epaule_g_1=="Oui" & input$dominance!="Gaucher"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation interscapulothoracique gaucher chez un droitier avec résection totale ou partielle de la clavicule et de l'omoplate, ou de l'un de ces deux os sur bras dominant","85%"))
+      }
+      if( input$amputation_epaule_d_1=="Oui" & input$dominance!="Droitier"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation interscapulothoracique droite chez un gaucher avec résection totale ou partielle de la clavicule et de l'omoplate, ou de l'un de ces deux os sur bras dominant","85%"))
+      }
+      if( input$amputation_epaule_d_1=="Oui" & input$dominance!="Gaucher"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation interscapulothoracique droite chez un droitier avec résection totale ou partielle de la clavicule et de l'omoplate, ou de l'un de ces deux os sur bras dominant","95%"))
+      }
+      #
+      if( input$amputation_epaule_g_2=="Oui" & input$dominance!="Droitier"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Désarticulation de l'épaule gauche chez un gaucher","95%"))
+      }
+      if( input$amputation_epaule_g_2=="Oui" & input$dominance!="Gaucher"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Désarticulation de l'épaule gaucher chez un droitier","85%"))
+      }
+      if( input$amputation_epaule_d_2=="Oui" & input$dominance!="Droitier"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Désarticulation de l'épaule droite chez un gaucher","85%"))
+      }
+      if( input$amputation_epaule_d_2=="Oui" & input$dominance!="Gaucher"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Désarticulation de l'épaule droite chez un droitier","95%"))
+      }
+      #
+      if( input$amputation_bras_g_1=="Oui" & input$dominance!="Droitier"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation du bras gauche au tiers supérieur chez un gaucher","95%"))
+      }
+      if( input$amputation_bras_g_1=="Oui" & input$dominance!="Gaucher"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation du bras gauche au tiers supérieur chez un droitier","80%"))
+      }
+      if( input$amputation_bras_d_1=="Oui" & input$dominance!="Droitier"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation du bras droit au tiers supérieur chez un gaucher","80%"))
+      }
+      if( input$amputation_bras_d_1=="Oui" & input$dominance!="Gaucher"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation du bras droit au tiers supérieur chez un droitier","95%"))
+      }
+      #
+      if( input$amputation_bras_g_2=="Oui" & input$dominance!="Droitier"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation du bras gauche au tiers moyen ou inférieur chez un gaucher","90%"))
+      }
+      if( input$amputation_bras_g_2=="Oui" & input$dominance!="Gaucher"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation du bras gauche au tiers moyen ou inférieur chez un droitier","80%"))
+      }
+      if( input$amputation_bras_d_2=="Oui" & input$dominance!="Droitier"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation du bras droit au tiers moyen ou inférieur chez un gaucher","80%"))
+      }
+      if( input$amputation_bras_d_2=="Oui" & input$dominance!="Gaucher"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation du bras droit au tiers moyen ou inférieur chez un droitier","90%"))
+      }
+      #
+      if( input$amputation_bras_g_3=="Oui" & input$dominance!="Droitier"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Désarticulation du coude, avant-bras au tiers supérieur gauche chez un gaucher","90%"))
+      }
+      if( input$amputation_bras_g_3=="Oui" & input$dominance!="Gaucher"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Désarticulation du coude, avant-bras au tiers supérieur gauche chez un droitier","80%"))
+      }
+      if( input$amputation_bras_d_3=="Oui" & input$dominance!="Droitier"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Désarticulation du coude, avant-bras au tiers supérieur droit chez un gaucher","80%"))
+      }
+      if( input$amputation_bras_d_3=="Oui" & input$dominance!="Gaucher"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Désarticulation du coude, avant-bras au tiers supérieur droit chez un droitier","90%"))
+      }
+      #
+      if( input$amputation_main_g_1=="Oui" & input$dominance!="Droitier"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation métacarpienne conservant une palette gauche chez un gaucher","70%"))
+      }
+      if( input$amputation_main_g_1=="Oui" & input$dominance!="Gaucher"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation métacarpienne conservant une palette gauche chez un droitier","60%"))
+      }
+      if( input$amputation_main_d_1=="Oui" & input$dominance!="Droitier"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation métacarpienne conservant une palette droite chez un gaucher","60%"))
+      }
+      if( input$amputation_main_d_1=="Oui" & input$dominance!="Gaucher"){
+        lesion <- rbind(lesion, c("Amputation","Membre supérieur","Amputation métacarpienne conservant une palette droite chez un droitier","70%"))
+      }
+      #
+      if(input$amputation_jambe_g_1=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation inter-ilio-abdominale gauche","100%"))
+      }
+      if(input$amputation_jambe_d_1=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation inter-ilio-abdominale droite","100%"))
+      }
+      
+      if(input$amputation_jambe_g_2=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Désarticulation de la hanche gauche","100%"))
+      }
+      if(input$amputation_jambe_d_2=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Désarticulation de la hanche droite","100%"))
+      }
+      
+      if(input$amputation_jambe_g_3=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation inter-trochantérienne gauche","100%"))
+      }
+      if(input$amputation_jambe_d_3=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation inter-trochantérienne droite","100%"))
+      }
+      if(input$amputation_jambe_g_4=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation sous-trochantérienne gauche","100%"))
+      }
+      if(input$amputation_jambe_d_4=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation sous-trochantérienne droite","100%"))
+      }
+      if(input$amputation_jambe_g_5=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation au tiers moyen ou au tiers inférieur de la cuisse gauche","100%"))
+      }
+      if(input$amputation_jambe_d_5=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation au tiers moyen ou au tiers inférieur de la cuisse droite","100%"))
+      }
+      #
+      if(input$amputation_jambe_g_6=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Désarticulation du genou gauche","80%"))
+      }
+      if(input$amputation_jambe_d_6=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Désarticulation du genou droit","80%"))
+      }
+      if(input$amputation_jambe_g_7=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation au tiers supérieur de la jambe gauche","70%"))
+      }
+      if(input$amputation_jambe_d_7=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation au tiers supérieur de la jambe droite","70%"))
+      }
+      if(input$amputation_jambe_g_8=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation au tiers moyen ou inférieur de la jambe gauche","70%"))
+      }
+      if(input$amputation_jambe_d_8=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation au tiers moyen ou inférieur de la jambe droite","70%"))
+      }
+      if(input$amputation_jambe_g_9=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Désarticulation tibio-tarsienn gauche","50%"))
+      }
+      if(input$amputation_jambe_d_9=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Désarticulation tibio-tarsienn droite","50%"))
+      }
+      if(input$amputation_jambe_g_10=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation du pied gauche, avec conservation de la partie postérieure du calcanéum avec bon appui talonnier (avec mouvement du pied restant satisfaisant et sans bascule en varus)","40%"))
+      }
+      if(input$amputation_jambe_d_10=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation du pied droit, avec conservation de la partie postérieure du calcanéum avec bon appui talonnier (avec mouvement du pied restant satisfaisant et sans bascule en varus)","40%"))
+      }
+      if(input$amputation_jambe_g_11=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Désarticulation médio-tarsienne de Chopart gauche","45%"))
+      }
+      if(input$amputation_jambe_d_11=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Désarticulation médio-tarsienne de Chopart droit","45%"))
+      }
+      if(input$amputation_jambe_g_12=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation transmétatarsienne de l'avant-pied gauche","30%"))
+      }
+      if(input$amputation_jambe_d_12=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation transmétatarsienne de l'avant-pied droit","30%"))
+      }
+      if(input$amputation_jambe_g_13=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Perte de cinq orteils gauche","25%"))
+      }
+      if(input$amputation_jambe_d_13=="Oui"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Perte de cinq orteils droit","25%"))
+      }
+      if(input$amputation_jambe_d_14=="Les deux phalanges avec le métatarsien"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation deux phalanges du gros orteil droit avec le métatarsien","20%"))
+      }
+      if(input$amputation_jambe_g_14=="Les deux phalanges avec le métatarsien"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation deux phalanges du gros orteil gauche droit avec le métatarsien","20%"))
+      }
+      if(input$amputation_jambe_d_14=="Les deux phalanges"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation deux phalanges du gros orteil droit sans le métatarsien","12%"))
+      }
+      if(input$amputation_jambe_g_14=="Les deux phalanges"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation deux phalanges du gros orteil gauche droit sans le métatarsien","12%"))
+      }
+      if(input$amputation_jambe_d_14=="Phalange distale"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation de la phalange distale du gros orteil droit ","5%"))
+      }
+      if(input$amputation_jambe_g_14=="Phalange distale"){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation de la phalange distale du gros orteil gauche","5%"))
+      }
+      #
+      if(any(input$amputation_jambe_d_15=="Amputation d'un orteil")){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation d'un orteil à droite","2%"))
+      }
+      if(any(input$amputation_jambe_g_15=="Amputation d'un orteil")){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation d'un orteil à gauche","2%"))
+      }
+      if(any(input$amputation_jambe_d_15=="Deuxième ou cinquième orteil avec leur métatarsien")){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation du deuxième ou cinquième orteil à droite avec leur métatarsien","10%"))
+      }
+      if(any(input$amputation_jambe_g_15=="Deuxième ou cinquième orteil avec leur métatarsien")){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation du deuxième ou cinquième orteil à gauche avec leur métatarsien","10%"))
+      }
+      if(any(input$amputation_jambe_d_15=="Troisième ou quatrième orteil avec leur métatarsien")){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation du troisième ou quatrième orteil à gauche avec leur métatarsien","0% (ZERO)"))
+      }
+      if(any(input$amputation_jambe_g_15=="Troisième ou quatrième orteil avec leur métatarsien")){
+        lesion <- rbind(lesion, c("Amputation","Membre inférieur","Amputation du troisième ou quatrième orteil à gauche avec leur métatarsien","0% (ZERO)"))
+      }
+      
+    }
+      # Evaluation des lesions bareme AT ---- Epaule
+      if(input$epaule_activate %in% c("Oui à gauche","Oui les deux")){
+        angle_1 <- ifelse(input$mob_act_g1>=0,input$mob_act_g1,NA)
+        angle_1b <- ifelse(input$mob_pas_g2>=0,input$mob_pas_g2,NA)
+        angle_2 <- ifelse(input$mob_act_g3>=0,input$mob_act_g3,NA)
+        angle_2b <- ifelse(input$mob_pas_g4>=0,input$mob_pas_g4,NA)
+        
+        severite_epaule <- NA
+        if(!is.na(angle_1) | !is.na(angle_1b)){
+          if(max(angle_1,angle_1b, na.rm = T)<=160){
+            severite_epaule <- 1
+          }
+          if(max(angle_1,angle_1b, na.rm = T)<=90){
+            severite_epaule <- 2
+          }
+          if(max(angle_1,angle_1b, na.rm = T)<=20){
+            severite_epaule <- 3
+          }
+          if(max(angle_1,angle_1b, na.rm = T)<=5){
+            severite_epaule <- 4
+          }
+        }
+        if(!is.na(angle_2) | !is.na(angle_2b)){
+          #
+          if(max(angle_2,angle_2b, na.rm = T)<=150){
+            severite_epaule <- 1
+          }
+          if(max(angle_2,angle_2b, na.rm = T)<=90){
+            severite_epaule <- 2
+          }
+          if(max(angle_2,angle_2b, na.rm = T)<=60){
+            severite_epaule <- 3
+          }
+          if(max(angle_2,angle_2b, na.rm = T)<=5){
+            severite_epaule <- 4
+          }
+        }
+        # 
+        if(severite_epaule==1){
+          if(input$dominance!="Droitier"){
+            lesion <- rbind(lesion, c("Epaules","Epaule Gauche","Limitation légère de tous les mouvements de l'épaule gauche chez un gaucher","12%"))
+          }else{
+            lesion <- rbind(lesion, c("Epaules","Epaule Gauche","Limitation légère de tous les mouvements de l'épaule gauche chez un droitier","8%"))
+          } 
+          
+          }
+        if(severite_epaule==2){
+          if(input$dominance!="Droitier"){
+            lesion <- rbind(lesion, c("Epaules","Epaule Gauche","Limitation moyenne de tous les mouvements de l'épaule gauche chez un gaucher","20%"))
+          }else{
+            lesion <- rbind(lesion, c("Epaules","Epaule Gauche","Limitation moyenne de tous les mouvements de l'épaule gauche chez un droitier","15%"))
+          }        
+          }
+        if(severite_epaule==3){
+          if(input$dominance!="Droitier"){
+            lesion <- rbind(lesion, c("Epaules","Epaule Gauche","Blocage de l'épaule gauche, avec omoplate mobile chez un gaucher","40%"))
+          }else{
+            lesion <- rbind(lesion, c("Epaules","Epaule Gauche","Blocage de l'épaule gauche, avec omoplate mobile chez un droitier","30%"))
+          }
+        }
+        if(severite_epaule==4){
+          if(input$dominance!="Droitier"){
+            lesion <- rbind(lesion, c("Epaules","Epaule Gauche","Blocage de l'épaule gauche, omoplate bloquée chez un gaucher","55%"))
+          }else{
+            lesion <- rbind(lesion, c("Epaules","Epaule Gauche","Blocage de l'épaule gauche, omoplate bloquée chez un droitier","45%"))
+          }
+          
+        }
+      }
+
+        if(input$epaule_activate %in% c("Oui à droite","Oui les deux")){
+          angle_1 <- ifelse(input$mob_act_d1>=0,input$mob_act_d1,NA)
+          angle_1b <- ifelse(input$mob_pas_d2>=0,input$mob_pas_d2,NA)
+          angle_2 <- ifelse(input$mob_act_d3>=0,input$mob_act_d3,NA)
+          angle_2b <- ifelse(input$mob_pas_d4>=0,input$mob_pas_d4,NA)
+          
+          severite_epaule <- NA
+          if(!is.na(angle_1) | !is.na(angle_1b)){
+            if(max(angle_1,angle_1b, na.rm = T)<=160){
+              severite_epaule <- 1
+            }
+            if(max(angle_1,angle_1b, na.rm = T)<=90){
+              severite_epaule <- 2
+            }
+            if(max(angle_1,angle_1b, na.rm = T)<=20){
+              severite_epaule <- 3
+            }
+            if(max(angle_1,angle_1b, na.rm = T)<=5){
+              severite_epaule <- 4
+            }
+          }
+          if(!is.na(angle_2) | !is.na(angle_2b)){
+            #
+            if(max(angle_2,angle_2b, na.rm = T)<=150){
+              severite_epaule <- 1
+            }
+            if(max(angle_2,angle_2b, na.rm = T)<=90){
+              severite_epaule <- 2
+            }
+            if(max(angle_2,angle_2b, na.rm = T)<=60){
+              severite_epaule <- 3
+            }
+            if(max(angle_2,angle_2b, na.rm = T)<=5){
+              severite_epaule <- 4
+            }
+          }
+          # 
+          if(severite_epaule==1){
+            if(input$dominance!="Droitier"){
+              lesion <- rbind(lesion, c("Epaules","Epaule Droite","Limitation légère de tous les mouvements de l'épaule droite chez un gaucher","8%"))
+            }else{
+              lesion <- rbind(lesion, c("Epaules","Epaule Droite","Limitation légère de tous les mouvements de l'épaule droite chez un droitier","12%"))
+            } 
+            
+          }
+          if(severite_epaule==2){
+            if(input$dominance!="Droitier"){
+              lesion <- rbind(lesion, c("Epaules","Epaule Droite","Limitation moyenne de tous les mouvements de l'épaule droite chez un gaucher","15%"))
+            }else{
+              lesion <- rbind(lesion, c("Epaules","Epaule Droite","Limitation moyenne de tous les mouvements de l'épaule droite chez un droitier","20%"))
+            }        
+          }
+          if(severite_epaule==3){
+            if(input$dominance!="Droitier"){
+              lesion <- rbind(lesion, c("Epaules","Epaule Droite","Blocage de l'épaule droite, avec omoplate mobile chez un gaucher","30%"))
+            }else{
+              lesion <- rbind(lesion, c("Epaules","Epaule Droite","Blocage de l'épaule droite, avec omoplate mobile chez un droitier","40%"))
+            }
+          }
+          if(severite_epaule==4){
+            if(input$dominance!="Droitier"){
+              lesion <- rbind(lesion, c("Epaules","Epaule Droite","Blocage de l'épaule droite, omoplate bloquée chez un gaucher","45%"))
+            }else{
+              lesion <- rbind(lesion, c("Epaules","Epaule Droite","Blocage de l'épaule droite, omoplate bloquée chez un droitier","55%"))
+            }
+            
+          }
+          
+        
+        }
+    
+    if(input$mainspoignets_activate!="Non"){
+      
+      # Etude fonctionnelle de la main
+      item1_g <- 3.5
+      item2_g <- 10.5
+      item3_g <- 10.5
+      item4_g <- 10.5
+      item5_g <- 21
+      item6_g <- 7
+      item7_g <- 7
+      #
+      item1_d <- 3.5
+      item2_d <- 10.5
+      item3_d <- 10.5
+      item4_d <- 10.5
+      item5_d <- 21
+      item6_d <- 7
+      item7_d <- 7
+      #
+      item1_g <- ifelse(input$main_fonct_g_item1=="INTERMEDIAIRE",1.5,item1_g)
+      item2_g <- ifelse(input$main_fonct_g_item2=="INTERMEDIAIRE",7,item2_g)
+      item3_g <- ifelse(input$main_fonct_g_item3=="INTERMEDIAIRE",7,item3_g)
+      item4_g <- ifelse(input$main_fonct_g_item4=="INTERMEDIAIRE",7,item4_g)
+      item5_g <- ifelse(input$main_fonct_g_item5=="INTERMEDIAIRE",14,item5_g)
+      item6_g <- ifelse(input$main_fonct_g_item6=="INTERMEDIAIRE",3.5,item6_g)
+      item7_g <- ifelse(input$main_fonct_g_item7=="INTERMEDIAIRE",3.5,item7_g)
+      #
+      item1_g <- ifelse(input$main_fonct_g_item1=="NULLE",0,item1_g)
+      item2_g <- ifelse(input$main_fonct_g_item2=="NULLE",0,item2_g)
+      item3_g <- ifelse(input$main_fonct_g_item3=="NULLE",0,item3_g)
+      item4_g <- ifelse(input$main_fonct_g_item4=="NULLE",0,item4_g)
+      item5_g <- ifelse(input$main_fonct_g_item5=="NULLE",0,item5_g)
+      item6_g <- ifelse(input$main_fonct_g_item6=="NULLE",0,item6_g)
+      item7_g <- ifelse(input$main_fonct_g_item7=="NULLEE",0,item7_g)
+      #
+      item1_d <- ifelse(input$main_fonct_d_item1=="INTERMEDIAIRE",1.5,item1_d)
+      item2_d <- ifelse(input$main_fonct_d_item2=="INTERMEDIAIRE",7,item2_d)
+      item3_d <- ifelse(input$main_fonct_d_item3=="INTERMEDIAIRE",7,item3_d)
+      item4_d <- ifelse(input$main_fonct_d_item4=="INTERMEDIAIRE",7,item4_d)
+      item5_g <- ifelse(input$main_fonct_d_item5=="INTERMEDIAIRE",14,item5_d)
+      item6_d <- ifelse(input$main_fonct_d_item6=="INTERMEDIAIRE",3.5,item6_d)
+      item7_d <- ifelse(input$main_fonct_d_item7=="INTERMEDIAIRE",3.5,item7_d)
+      #
+      item1_d <- ifelse(input$main_fonct_d_item1=="NULLE",0,item1_d)
+      item2_d <- ifelse(input$main_fonct_d_item2=="NULLE",0,item2_d)
+      item3_d <- ifelse(input$main_fonct_d_item3=="NULLE",0,item3_d)
+      item4_d <- ifelse(input$main_fonct_d_item4=="NULLE",0,item4_d)
+      item5_d <- ifelse(input$main_fonct_d_item5=="NULLE",0,item5_d)
+      item6_d <- ifelse(input$main_fonct_d_item6=="NULLE",0,item6_d)
+      item7_d <- ifelse(input$main_fonct_d_item7=="NULLEE",0,item7_d)
+      #
+      Score_D <- (item1_d+item2_d+item3_d+item4_d+item5_d+item6_d+item7_d)*0.01
+      Score_G <- (item1_g+item2_g+item3_g+item4_g+item5_g+item6_g+item7_g)*0.01
+
+      if(input$mainspoignets_activate %in% c("Oui les deux","Oui à droite")){
+      if(Score_D<0.7){
+        if(input$dominance!="Droitier"){
+          lesion <- rbind(lesion, c("Mains et poignets","Main Droite","Atteinte fonctionnelle de la main droite chez un gaucher",paste0(floor(Score_D*60),"%") ))
+        }else{
+          lesion <- rbind(lesion, c("Mains et poignets","Main Droite","Atteinte fonctionnelle de la main droite chez un droitier",paste0(floor(Score_D*70),"%") ))
+        }
+      }
+      }
+      if(input$mainspoignets_activate %in% c("Oui les deux","Oui à gauche")){
+      if(Score_G<0.7){
+        if(input$dominance!="Droitier"){
+          lesion <- rbind(lesion, c("Mains et poignets","Main Gauche","Atteinte fonctionnelle de la main gauche chez un gaucher",paste0(floor(Score_G*70),"%") ))
+        }else{
+          lesion <- rbind(lesion, c("Mains et poignets","Main Gauche","Atteinte fonctionnelle de la main gauche chez un droitier",paste0(floor(Score_G*60),"%") ))
+        }
+      }
+        }
+    }
+    
+    
+      
+    
+    #
+    if(nrow(lesion)>1){
+      lesion <- lesion[!is.na(lesion$Module),]
+    }
+    output$AT_bareme <- DT::renderDataTable(lesion)
+  })
 }
+# ="Oui" & (input$dominance %in% c("Gaucher","Ambidextre (Travailleur du bois)")) )| (input$amputation_epaule_d_1=="Oui" & (input$dominance %in% c("Droitier","Ambidextre (Travailleur du bois)")) )
+
+
+# eval_AT <- function(input,output, session){
+
+# }
+

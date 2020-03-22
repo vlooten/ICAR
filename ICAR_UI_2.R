@@ -2,7 +2,7 @@
 # Shiny User Interface v0.01
 # Dr Vincent Looten
 # Date de création : 2020-02-17
-# Date de dernière modification : 2020-03-17
+# Date de dernière modification : 2020-03-22
 # Text encoding : UTF-8 (test : éèçà)
 
 
@@ -106,8 +106,8 @@ ui <- dashboardPage(
                   textInput("medecinconseil", "Nom du médecin conseil : ", "Dr Vincent Looten"),
                   radioButtons("cadreprestation", "Cadre de prestation", c("Non renseigné","Accident du travail","Maladie professionnelle", "Maladie simple : Contrôle pertinence d'un arrêt de travail", "Maladie simple : évaluation de la capacité de travail (invalidité)"),inline = T),
                   conditionalPanel(
-                    condition = "input.cadreprestation=='Accident du travail'",
-                    radioButtons("objectif_convoc", "Objectif de la convocation", c("Consolidation","Fixation de séquelles après CFD", "Demande de rechute"),inline = T)
+                    condition = "input.cadreprestation=='Accident du travail' || input.cadreprestation=='Maladie professionnelle' ",
+                    radioButtons("objectif_convoc", "Objectif de la convocation", c("Consolidation et fixation de séquelles","Fixation de séquelles après CFD", "Demande de rechute"),inline = T)
                   ),
                     conditionalPanel(
                       condition = "input.cadreprestation=='Accident du travail'",
@@ -1269,8 +1269,13 @@ ui <- dashboardPage(
               #TabItem decision making ####
               h1("Module d'aide à la décision"),
               tags$section("Avertissement : Ce module n'a pas fait l'objet d'une validation institutionnelle, vous restez responsable de votre décision."),
-              htmlOutput("decisionmaking_inval1")
-              
+              actionButton("btn", "Analyse de mes données"),
+              htmlOutput("decisionmaking_inval1"),
+              conditionalPanel(
+                condition = "input.cadreprestation=='Accident du travail' && input.objectif_convoc.includes('séquelles')",
+                h3("ARGUMENTS POUR LA FIXATION DU TAUX D'IP"),
+                div(DT::dataTableOutput("AT_bareme"),style = "font-size: 75%; width: 50%" ) 
+                )
               
       ),
       tabItem(tabName = "synthesis",
@@ -1389,10 +1394,3 @@ ui <- dashboardPage(
   
 )
 
-
-
-# # Load Shiny app ####
-# source('ICAR_server.R', encoding = 'UTF-8')
-# 
-# # Run the application ####
-# shinyApp(ui = ui, server = server)

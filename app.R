@@ -1,18 +1,28 @@
 # ICAR v0.01 ####
 # Dr Vincent Looten
 # Date de création : 2020-02-17
-# Date de dernière modification : 2020-03-18
+# Date de dernière modification : 2020-03-22
 # Text encoding : UTF-8
 
 # Load packages  ####
-listepackages<-c("shiny","shinydashboard","tableHTML","ggplot2","lubridate","spacyr","dplyr","tidyr")
-for (pack in listepackages) {
-    if (!is.element(pack, installed.packages()[,1])){
-        install.packages(pack, dep = TRUE)
-    }
-    eval(parse(text=paste0("library(",pack,")")))
-}
-rm(pack)
+# listepackages<-c("shiny","shinydashboard","tableHTML","ggplot2","lubridate","spacyr","dplyr","tidyr")
+# for (pack in listepackages) {
+#     if (!is.element(pack, installed.packages()[,1])){
+#         install.packages(pack, dep = TRUE)
+#     }
+#     eval(parse(text=paste0("library(",pack,")")))
+# }
+# rm(pack)
+
+library("shiny")
+library("shinydashboard")
+library("tableHTML")
+library("ggplot2")
+library("lubridate")
+library("spacyr")
+library("dplyr")
+library("tidyr")
+library("DT")
 
 # Load Shiny app ####
 source('ICAR_UI_2.R', encoding = 'UTF-8')
