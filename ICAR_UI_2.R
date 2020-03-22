@@ -1147,7 +1147,10 @@ ui <- dashboardPage(
                     radioButtons("psy_obj_item5","Existe-t-il des signes de mutilation ?", choices = c("Non","Oui","NSP"),inline = T, selected = "Non")
               ),
               box(title="Eléments de l'interrogatoire :", width = 6,
-                  textAreaInput("psy_obs", "Notes libre de l'examen clinique :", "", rows = 10)
+                  textAreaInput("psy_obs", "Notes libre de l'examen clinique :", "", rows = 5),
+                  radioButtons("psy_mod_1","Existe-t-il des troubles du comportement ?", choices = c("Non ou minimes","Oui modérés","Oui sévères","Oui très sévères"),inline = T, selected = "Non ou minimes"),
+                  radioButtons("psy_mod_2","Existe-t-il une grande dépression mélancolique ?", choices = c("Non","Oui"),inline = T, selected = "Non"),
+                  radioButtons("psy_mod_3","Existe-t-il des troubles anxieux ?", choices = c("Non ou minimes","Oui avec évitement ciblés","Oui avec pantophobie"),inline = T, selected = "Non ou minimes")
               )
               ),
               fluidRow(

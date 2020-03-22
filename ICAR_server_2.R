@@ -1863,7 +1863,112 @@ server <- function(input, output) {
       }
       
     }
-      # Evaluation des lesions bareme AT ---- Epaule
+    
+    # Evaluation des lesions bareme MP ---- Dépression ####
+    if(input$depression_activate=="Oui"){
+    phq_fun <- function(x,y=c("Jamais","Plusieurs jours","Plus de la moitié des jours","Presque tous les jours")){
+      0+1*(x==y[2])+2*(x==y[3])+3*(x==y[4])
+    }
+    tbcomp_score <- phq_fun(input$psy_mod_1,c("Non ou minimes","Oui modérés","Oui sévères","Oui très sévères"))
+    anxiete_score <- phq_fun(input$psy_mod_3,c("Non ou minimes","Oui avec évitement ciblés","Oui avec pantophobie","XXX"))
+    PHQ_score <- 0
+    if(input$PHQ9_item0=="Oui"){
+      PHQ_score <-phq_fun(input$PHQ9_item1)+phq_fun(input$PHQ9_item2)+phq_fun(input$PHQ9_item3)+phq_fun(input$PHQ9_item4)+phq_fun(input$PHQ9_item5)+phq_fun(input$PHQ9_item6)+phq_fun(input$PHQ9_item7)+phq_fun(input$PHQ9_item8)+phq_fun(input$PHQ9_item9)
+    }
+    if(PHQ_score<5){
+      if(anxiete_score==1){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Troubles anxieux","5%"))
+        
+      }
+    }
+    if(PHQ_score>4 & PHQ_score<10){
+      if(anxiete_score==0 & tbcomp_score==0){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression traitée","10%"))
+        
+      }
+      if(anxiete_score>0 & tbcomp_score==0){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression traitée avec troubles anxieux","15%"))
+        
+      }
+      if(anxiete_score>0 & tbcomp_score>0){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression traitée avec troubles anxieux et troubles du comportement","20%"))
+        
+      }
+    }
+    if(PHQ_score>9 & PHQ_score<15){
+      if(anxiete_score==0 & tbcomp_score==0){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression modérément sévère","15%"))
+        
+      }
+      if(anxiete_score>0 & tbcomp_score==0){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression modérément sévère avec troubles anxieux","20%"))
+        
+      }
+      if(anxiete_score>0 & tbcomp_score>0){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression modérément sévère avec troubles anxieux et troubles du comportement","25%"))
+        
+      }
+    }
+    if(PHQ_score>14 & PHQ_score<20){
+      if(anxiete_score==0 & tbcomp_score==0){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression sévère","20%"))
+        
+      }
+      if(anxiete_score>0 & tbcomp_score==0){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression modérément sévère avec troubles anxieux","25%"))
+        
+      }
+      if(anxiete_score>0 & tbcomp_score>0){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression modérément sévère avec troubles anxieux et troubles du comportement","30%"))
+        
+      }
+      
+    }
+    if(PHQ_score>19){
+      
+      if(anxiete_score==0 & tbcomp_score==0){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression très sévère","40%"))
+        
+      }
+      if(anxiete_score==1 & tbcomp_score==0){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression sévère avec troubles anxieux","45%"))
+        
+      }
+      if(anxiete_score==2 & tbcomp_score==0){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression sévère avec troubles anxieux pantophobique","50%"))
+        
+      }
+      
+      if(anxiete_score==1 & tbcomp_score==1){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression très sévère avec troubles anxieux et troubles du comportements","55%"))
+        
+      }
+      if(anxiete_score==2 & tbcomp_score==1){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression très sévère avec troubles anxieux pantophobique et troubles du comportements","60%"))
+        
+      }
+      if(anxiete_score==1 & tbcomp_score==2){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression très sévère avec troubles anxieux et troubles du comportements sévères","65%"))
+        
+      }
+      if(anxiete_score==2 & tbcomp_score==2){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression très sévère avec troubles anxieux pantophobique et troubles du comportements sévères","70%"))
+        
+      }
+      if(anxiete_score==1 & tbcomp_score==3){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression très sévère avec troubles anxieux et troubles du comportements très sévères","80%"))
+        
+      }
+      if(anxiete_score==2 & tbcomp_score==3){
+        lesion <- rbind(lesion, c("Psychiatrie","Dépression","Dépression très sévère avec troubles anxieux pantophobique et troubles du comportements très sévères","90%"))
+        
+      }
+      
+    }
+    
+    }
+    
+      # Evaluation des lesions bareme AT ---- Epaule ####
       if(input$epaule_activate %in% c("Oui à gauche","Oui les deux")){
         angle_1 <- ifelse(input$mob_act_g1>=0,input$mob_act_g1,NA)
         angle_1b <- ifelse(input$mob_pas_g2>=0,input$mob_pas_g2,NA)
