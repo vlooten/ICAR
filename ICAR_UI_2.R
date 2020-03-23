@@ -1275,7 +1275,7 @@ ui <- dashboardPage(
               actionButton("btn", "Analyse de mes données"),
               htmlOutput("decisionmaking_inval1"),
               conditionalPanel(
-                condition = "input.cadreprestation=='Accident du travail' && input.objectif_convoc.includes('séquelles')",
+                condition = "(input.cadreprestation=='Accident du travail' || input.cadreprestation=='Maladie professionnelle') && input.objectif_convoc.includes('séquelles')",
                 h3("ARGUMENTS POUR LA FIXATION DU TAUX D'IP"),
                 div(DT::dataTableOutput("AT_bareme"),style = "font-size: 75%; width: 50%" ) 
                 )

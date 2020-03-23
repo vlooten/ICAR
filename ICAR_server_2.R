@@ -2111,7 +2111,7 @@ server <- function(input, output) {
     
     if(input$mainspoignets_activate!="Non"){
       
-      # Etude fonctionnelle de la main
+      # Evaluation des lesions bareme AT ---- Mains et poignets ####
       item1_g <- 3.5
       item2_g <- 10.5
       item3_g <- 10.5
@@ -2166,9 +2166,9 @@ server <- function(input, output) {
       if(input$mainspoignets_activate %in% c("Oui les deux","Oui à droite")){
       if(Score_D<0.7){
         if(input$dominance!="Droitier"){
-          lesion <- rbind(lesion, c("Mains et poignets","Main Droite","Atteinte fonctionnelle de la main droite chez un gaucher",paste0(floor(Score_D*60),"%") ))
+          lesion <- rbind(lesion, c("Mains et poignets","Main Droite","Atteinte fonctionnelle de la main droite chez un gaucher",paste0(floor((1-Score_D)*60),"%") ))
         }else{
-          lesion <- rbind(lesion, c("Mains et poignets","Main Droite","Atteinte fonctionnelle de la main droite chez un droitier",paste0(floor(Score_D*70),"%") ))
+          lesion <- rbind(lesion, c("Mains et poignets","Main Droite","Atteinte fonctionnelle de la main droite chez un droitier",paste0(floor((1-Score_D)*70),"%") ))
         }
       }
       }
