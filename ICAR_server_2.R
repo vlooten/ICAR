@@ -2109,6 +2109,118 @@ server <- function(input, output) {
         
         }
     
+    # Evaluation des lesions bareme MP ---- Coudes ####
+    if(input$epicondylite_activate!="Non"){
+      if(input$epicondylite_activate %in% c("Oui les deux","Oui à droite")){
+        if(input$coude_d_mob1 == 'Limitation des mouvements de flexion-extension'){
+          if(input$coude_d_mob2=="Mouvements conservés de 70 à 145 degrés"){
+            if(input$dominance!="Gaucher"){
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés de 70 à 145 degrés du coude droit chez un droitier","10%"))
+            }else{
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés de 70 à 145 degrés du coude droit chez un gaucher","8%"))
+            } 
+          }
+          if(input$coude_d_mob2=="Mouvements conservés autour de l'angle favorable (60-100 degrés)"){
+            
+            if(input$dominance!="Gaucher"){
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés autour de l'angle favorable (60-100 degrés) du coude droit chez un droitier","20%"))
+            }else{
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements cconservés autour de l'angle favorable (60-100 degrés) du coude droit chez un gaucher","15%"))
+            }
+            
+          }
+          if(input$coude_d_mob2=="Mouvements conservés de 0 à 70 degrés"){
+            
+            if(input$dominance!="Gaucher"){
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés de 0 à 70 degrés du coude droit chez un droitier","25%"))
+            }else{
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés de 0 à 70 degrés du coude droit chez un gaucher","22%"))
+            }
+            
+          }
+
+        }
+        if(input$coude_d_mob1 == 'Blocage de la flexion-extension'){
+          
+          if(input$coude_d_mob3=="Angle favorable (60-100)"){
+            
+            if(input$dominance!="Gaucher"){
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Blocage de flexion-extension avec un angle favorable (60-100) du coude droit chez un droitier","25%"))
+            }else{
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Blocage de flexion-extension avec un angle favorable (60-100) du coude droit chez un gaucher","22%")) 
+            }
+            
+          }
+          if(input$coude_d_mob3=="Angle défavorable (de 100 à 145 ou de 0 à 60)"){
+            
+            if(input$dominance!="Gaucher"){
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Blocage de flexion-extension avec un angle défavorable (de 100 à 145 ou de 0 à 60) du coude droit chez un droitier","40%"))
+            }else{
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Blocage de flexion-extension avec un angle défavorable (de 100 à 145 ou de 0 à 60) du coude droit chez un gaucher","35%")) 
+            }
+            
+          }
+          
+        }
+        
+        
+      }
+      if(input$epicondylite_activate %in% c("Oui les deux","Oui à gauche"))
+      
+        if(input$coude_g_mob1 == 'Limitation des mouvements de flexion-extension'){
+          if(input$coude_g_mob2=="Mouvements conservés de 70 à 145 degrés"){
+            if(input$dominance!="Droitier"){
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés de 70 à 145 degrés du coude droit chez un droitier","10%"))
+            }else{
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés de 70 à 145 degrés du coude droit chez un gaucher","8%"))
+            } 
+          }
+          if(input$coude_g_mob2=="Mouvements conservés autour de l'angle favorable (60-100 degrés)"){
+            
+            if(input$dominance!="Droitier"){
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés autour de l'angle favorable (60-100 degrés) du coude droit chez un droitier","20%"))
+            }else{
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements cconservés autour de l'angle favorable (60-100 degrés) du coude droit chez un gaucher","15%"))
+            }
+            
+          }
+          if(input$coude_g_mob2=="Mouvements conservés de 0 à 70 degrés"){
+            
+            if(input$dominance!="Droitier"){
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés de 0 à 70 degrés du coude droit chez un droitier","25%"))
+            }else{
+              lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés de 0 à 70 degrés du coude droit chez un gaucher","22%"))
+            }
+            
+          }
+          
+        }
+      if(input$coude_g_mob1 == 'Blocage de la flexion-extension'){
+        
+        if(input$coude_g_mob3=="Angle favorable (60-100)"){
+          
+          if(input$dominance!="Droitier"){
+            lesion <- rbind(lesion, c("Coude","Coude Droit","Blocage de flexion-extension avec un angle favorable (60-100) du coude droit chez un droitier","25%"))
+          }else{
+            lesion <- rbind(lesion, c("Coude","Coude Droit","Blocage de flexion-extension avec un angle favorable (60-100) du coude droit chez un gaucher","22%")) 
+          }
+          
+        }
+        if(input$coude_g_mob3=="Angle défavorable (de 100 à 145 ou de 0 à 60)"){
+          
+          if(input$dominance!="Droitier"){
+            lesion <- rbind(lesion, c("Coude","Coude Droit","Blocage de flexion-extension avec un angle défavorable (de 100 à 145 ou de 0 à 60) du coude droit chez un droitier","40%"))
+          }else{
+            lesion <- rbind(lesion, c("Coude","Coude Droit","Blocage de flexion-extension avec un angle défavorable (de 100 à 145 ou de 0 à 60) du coude droit chez un gaucher","35%")) 
+          }
+          
+        }
+        
+      }
+        
+    }
+    
+     
     if(input$mainspoignets_activate!="Non"){
       
       # Evaluation des lesions bareme AT ---- Mains et poignets ####
