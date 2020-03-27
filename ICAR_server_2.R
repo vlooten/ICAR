@@ -2,7 +2,7 @@
 # Shiny server v0.01
 # Dr Vincent Looten
 # Date de création : 2020-02-17
-# Date de dernière modification : 2020-03-22
+# Date de dernière modification : 2020-03-27
 # Text encoding : UTF-8 (test : éèçà)
 
 server <- function(input, output) {
@@ -2169,7 +2169,7 @@ server <- function(input, output) {
       
         if(input$coude_g_mob1 == 'Limitation des mouvements de flexion-extension'){
           if(input$coude_g_mob2=="Mouvements conservés de 70 à 145 degrés"){
-            if(input$dominance!="Droitier"){
+            if(input$dominance!="Gaucher"){
               lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés de 70 à 145 degrés du coude droit chez un droitier","10%"))
             }else{
               lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés de 70 à 145 degrés du coude droit chez un gaucher","8%"))
@@ -2177,7 +2177,7 @@ server <- function(input, output) {
           }
           if(input$coude_g_mob2=="Mouvements conservés autour de l'angle favorable (60-100 degrés)"){
             
-            if(input$dominance!="Droitier"){
+            if(input$dominance!="Gaucher"){
               lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés autour de l'angle favorable (60-100 degrés) du coude droit chez un droitier","20%"))
             }else{
               lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements cconservés autour de l'angle favorable (60-100 degrés) du coude droit chez un gaucher","15%"))
@@ -2186,7 +2186,7 @@ server <- function(input, output) {
           }
           if(input$coude_g_mob2=="Mouvements conservés de 0 à 70 degrés"){
             
-            if(input$dominance!="Droitier"){
+            if(input$dominance!="Gaucher"){
               lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés de 0 à 70 degrés du coude droit chez un droitier","25%"))
             }else{
               lesion <- rbind(lesion, c("Coude","Coude Droit","Limitation des mouvements de flexion-extension avec mouvements conservés de 0 à 70 degrés du coude droit chez un gaucher","22%"))
@@ -2199,7 +2199,7 @@ server <- function(input, output) {
         
         if(input$coude_g_mob3=="Angle favorable (60-100)"){
           
-          if(input$dominance!="Droitier"){
+          if(input$dominance!="Gaucher"){
             lesion <- rbind(lesion, c("Coude","Coude Droit","Blocage de flexion-extension avec un angle favorable (60-100) du coude droit chez un droitier","25%"))
           }else{
             lesion <- rbind(lesion, c("Coude","Coude Droit","Blocage de flexion-extension avec un angle favorable (60-100) du coude droit chez un gaucher","22%")) 
@@ -2208,7 +2208,7 @@ server <- function(input, output) {
         }
         if(input$coude_g_mob3=="Angle défavorable (de 100 à 145 ou de 0 à 60)"){
           
-          if(input$dominance!="Droitier"){
+          if(input$dominance!="Gaucher"){
             lesion <- rbind(lesion, c("Coude","Coude Droit","Blocage de flexion-extension avec un angle défavorable (de 100 à 145 ou de 0 à 60) du coude droit chez un droitier","40%"))
           }else{
             lesion <- rbind(lesion, c("Coude","Coude Droit","Blocage de flexion-extension avec un angle défavorable (de 100 à 145 ou de 0 à 60) du coude droit chez un gaucher","35%")) 
@@ -2220,6 +2220,93 @@ server <- function(input, output) {
         
     }
     
+    if(input$rachisdl_activate=="Oui"){
+      
+      if(input$snp_mi_g_glob=="altéré"){
+        
+        if("Paralysie totale d'un membre inférieur flasque" %in% input$snp_mi_g1){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur gauche","Paralysie totale du membre inférieur gauche flasque","75%"))
+        }
+        if("Paralysie complète du nerf sciatique (demi-tendineux, demi membraneux, biceps fémoral, une partie du grand adducteur, auxquels se joignent les muscles innervés par le sciatique poplité externe et le sciatique poplité interne)" %in% input$snp_mi_g1){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur gauche","Paralysie complète du nerf sciatique gauche (demi-tendineux, demi membraneux, biceps fémoral, une partie du grand adducteur, auxquels se joignent les muscles innervés par le sciatique poplité externe et le sciatique poplité interne)","60%"))
+        }
+        if("Paralysie du nerf sciatique poplité externe (jambier antérieur, extenseur propre du gos orteil, extenseur commun, long et court péroniers latéraux, pédieux)" %in% input$snp_mi_g1){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur gauche","Paralysie du nerf sciatique poplité externe gauche (jambier antérieur, extenseur propre du gos orteil, extenseur commun, long et court péroniers latéraux, pédieux)","30%"))
+        }
+        if("Paralysie du nerf sciatique poplité interne (poplité, jumeaux, soléaire, plantaire grêle, jambier postérieur, fléchisseur commun, long fléchisseur du premier orteil, tous les muscles plantaires)" %in% input$snp_mi_g1){
+          lesion <- rbind(lesion, c("Rachis dorsolombaore","Membre inférieur gauche","Paralysie du nerf sciatique poplité interne gauche (poplité, jumeaux, soléaire, plantaire grêle, jambier postérieur, fléchisseur commun, long fléchisseur du premier orteil, tous les muscles plantaires)","30%"))
+        }
+        if("Paralysie du nerf crural (quadriceps)" %in% input$snp_mi_g1){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur gauche","Paralysie du nerf crural gauche (quadriceps)","40%"))
+        }
+        if("Paralysie du nerf obturateur (pectiné, obturateur externe, adducteur)" %in% input$snp_mi_g1){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur gauche","Paralysie du nerf obturateur gauche (pectiné, obturateur externe, adducteur)","15%"))
+        }
+        
+        if("Paralysie totale d'un membre inférieur flasque" %in% input$snp_mi_g2){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur gauche","Paralysie modéré (4/5) du membre inférieur gauche flasque","56%"))
+        }
+        if("Paralysie complète du nerf sciatique (demi-tendineux, demi membraneux, biceps fémoral, une partie du grand adducteur, auxquels se joignent les muscles innervés par le sciatique poplité externe et le sciatique poplité interne)" %in% input$snp_mi_g2){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur gauche","Paralysie modéré (4/5) du nerf sciatique gauche (demi-tendineux, demi membraneux, biceps fémoral, une partie du grand adducteur, auxquels se joignent les muscles innervés par le sciatique poplité externe et le sciatique poplité interne)","45%"))
+        }
+        if("Paralysie du nerf sciatique poplité externe (jambier antérieur, extenseur propre du gos orteil, extenseur commun, long et court péroniers latéraux, pédieux)" %in% input$snp_mi_g2){
+          lesion <- rbind(lesion, c("Rachis dorsolombaore","Membre inférieur gauche","Paralysie modéré (4/5) du nerf sciatique poplité externe gauche (jambier antérieur, extenseur propre du gos orteil, extenseur commun, long et court péroniers latéraux, pédieux)","23%"))
+        }
+        if("Paralysie du nerf sciatique poplité interne (poplité, jumeaux, soléaire, plantaire grêle, jambier postérieur, fléchisseur commun, long fléchisseur du premier orteil, tous les muscles plantaires)" %in% input$snp_mi_g2){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur gauche","Paralysie modéré (4/5) du nerf sciatique poplité interne gauche (poplité, jumeaux, soléaire, plantaire grêle, jambier postérieur, fléchisseur commun, long fléchisseur du premier orteil, tous les muscles plantaires)","23%"))
+        }
+        if("Paralysie du nerf crural (quadriceps)" %in% input$snp_mi_g2){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur gauche","Paralysie modéré (4/5) du nerf crural gauche (quadriceps)","30%"))
+        }
+        if("Paralysie du nerf obturateur (pectiné, obturateur externe, adducteur)" %in% input$snp_mi_g2){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur gauche","Paralysie modéré (4/5) du nerf obturateur gauche (pectiné, obturateur externe, adducteur)","11%"))
+        }
+        
+      }
+      
+      if(input$snp_mi_d_glob=="altéré"){
+        
+        if("Paralysie totale d'un membre inférieur flasque" %in% input$snp_mi_d1){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur droit","Paralysie totale du membre inférieur droit flasque","75%"))
+        }
+        if("Paralysie complète du nerf sciatique (demi-tendineux, demi membraneux, biceps fémoral, une partie du grand adducteur, auxquels se joignent les muscles innervés par le sciatique poplité externe et le sciatique poplité interne)" %in% input$snp_mi_d1){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur droit","Paralysie complète du nerf sciatique droit (demi-tendineux, demi membraneux, biceps fémoral, une partie du grand adducteur, auxquels se joignent les muscles innervés par le sciatique poplité externe et le sciatique poplité interne)","60%"))
+        }
+        if("Paralysie du nerf sciatique poplité externe (jambier antérieur, extenseur propre du gos orteil, extenseur commun, long et court péroniers latéraux, pédieux)" %in% input$snp_mi_d1){
+          lesion <- rbind(lesion, c("Rachis dorsolombaore","Membre inférieur droit","Paralysie du nerf sciatique poplité externe droit (jambier antérieur, extenseur propre du gos orteil, extenseur commun, long et court péroniers latéraux, pédieux)","30%"))
+        }
+        if("Paralysie du nerf sciatique poplité interne (poplité, jumeaux, soléaire, plantaire grêle, jambier postérieur, fléchisseur commun, long fléchisseur du premier orteil, tous les muscles plantaires)" %in% input$snp_mi_d1){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur droit","Paralysie du nerf sciatique poplité interne droit (poplité, jumeaux, soléaire, plantaire grêle, jambier postérieur, fléchisseur commun, long fléchisseur du premier orteil, tous les muscles plantaires)","30%"))
+        }
+        if("Paralysie du nerf crural (quadriceps)" %in% input$snp_mi_d1){
+          lesion <- rbind(lesion, c("Rachis dorsolombaore","Membre inférieur droit","Paralysie du nerf crural droit (quadriceps)","40%"))
+        }
+        if("Paralysie du nerf obturateur (pectiné, obturateur externe, adducteur)" %in% input$snp_mi_d1){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur droit","Paralysie du nerf obturateur droit (pectiné, obturateur externe, adducteur)","15%"))
+        }
+        
+        if("Paralysie totale d'un membre inférieur flasque" %in% input$snp_mi_d2){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur droit","Paralysie modéré (4/5) du membre inférieur droit flasque","56%"))
+        }
+        if("Paralysie complète du nerf sciatique (demi-tendineux, demi membraneux, biceps fémoral, une partie du grand adducteur, auxquels se joignent les muscles innervés par le sciatique poplité externe et le sciatique poplité interne)" %in% input$snp_mi_d2){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur droit","Paralysie modéré (4/5) du nerf sciatique droit (demi-tendineux, demi membraneux, biceps fémoral, une partie du grand adducteur, auxquels se joignent les muscles innervés par le sciatique poplité externe et le sciatique poplité interne)","45%"))
+        }
+        if("Paralysie du nerf sciatique poplité externe (jambier antérieur, extenseur propre du gos orteil, extenseur commun, long et court péroniers latéraux, pédieux)" %in% input$snp_mi_d2){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur droit","Paralysie modéré (4/5) du nerf sciatique poplité externe droit (jambier antérieur, extenseur propre du gos orteil, extenseur commun, long et court péroniers latéraux, pédieux)","23%"))
+        }
+        if("Paralysie du nerf sciatique poplité interne (poplité, jumeaux, soléaire, plantaire grêle, jambier postérieur, fléchisseur commun, long fléchisseur du premier orteil, tous les muscles plantaires)" %in% input$snp_mi_d2){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur droit","Paralysie modéré (4/5) du nerf sciatique poplité interne droit (poplité, jumeaux, soléaire, plantaire grêle, jambier postérieur, fléchisseur commun, long fléchisseur du premier orteil, tous les muscles plantaires)","23%"))
+        }
+        if("Paralysie du nerf crural (quadriceps)" %in% input$snp_mi_d2){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur droit","Paralysie modéré (4/5) du nerf crural droit (quadriceps)","30%"))
+        }
+        if("Paralysie du nerf obturateur (pectiné, obturateur externe, adducteur)" %in% input$snp_mi_d2){
+          lesion <- rbind(lesion, c("Rachis dorsolombaire","Membre inférieur droit","Paralysie modéré (4/5) du nerf obturateur droit (pectiné, obturateur externe, adducteur)","11%"))
+        }
+        
+      }
+      
+    }
      
     if(input$mainspoignets_activate!="Non"){
       
